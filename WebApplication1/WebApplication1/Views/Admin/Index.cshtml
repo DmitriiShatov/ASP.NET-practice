@@ -1,0 +1,59 @@
+﻿@model IEnumerable<WebApplication1.Models.Bike>
+
+
+<h2 style="text-align:center;">Bikes</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Company</th>
+            <th>Type</th>
+            <th>Model</th>
+            <th>Style</th>
+            <th>Price</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var bike in Model)
+        {
+        <tr>
+            <td>@bike.Name</td>
+            <td>@bike.Company</td>
+            <td>
+                @foreach (var @data in ViewBag.Types)
+                {
+                    if (@data.TypeId == bike.TypeId)@data.Name;
+                }
+            </td>
+            <td>
+                @foreach (var @data in ViewBag.Models)
+                {
+                    if (@data.ModelId == bike.ModelId)@data.Name;
+                }
+            </td>
+            <td>
+                @foreach (var @data in ViewBag.Styles)
+                {
+                    if (@data.StyleId == bike.StyleId)@data.Name;
+                }
+            </td>
+            <td>@bike.Price</td>
+            <td><a asp-controller="Admin" asp-action="Update" asp-route-id="@bike.BikeId" class="btn btn-secondary">Update</a></td>
+            <td>
+                <form method="post" action="~/Admin/Delete">
+                    <input type="hidden" value="@bike.BikeId" name="bikeId" />
+                    <input type="submit" class="btn btn-danger" value="Delete">
+                </form>
+            </td>
+        </tr>
+         }
+    </tbody>
+</table>
+
+
+
+<div>
+    <a class="btn btn-dark" asp-controller="Admin" asp-action="Create" style="width:100%;">Create</a>
+</div>

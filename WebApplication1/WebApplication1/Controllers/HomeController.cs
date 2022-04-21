@@ -14,7 +14,7 @@ namespace WebApplication1.Controllers
         {
             this.context = context;
         }
-        public IActionResult Index(string thx = "") 
+        public IActionResult Index(string thx = "", int page=1) 
         {
             if (!string.IsNullOrEmpty(thx))
                 ViewBag.Thx = thx;
@@ -25,7 +25,11 @@ namespace WebApplication1.Controllers
             ViewBag.Styles = styles;
             var types = context.Types.ToList();
             ViewBag.Types = types;
-            return View(bikes);
+            int pageSize = 5;
+            IEnumerable<Bike> bikePerPages = bikes.Skip((page - 1) * pageSize).Take(pageSize);
+            PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = pageSize, TotalItems = bikes.Count };
+            IndexViewModel ivm = new IndexViewModel { PageInfo = pageInfo, Bikes = bikePerPages };
+            return View(ivm);
         }
 
         public IActionResult Buy(int? id) 
@@ -38,9 +42,16 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public IActionResult Buy(Order order) 
         {
-            context.Orders.Add(order);
-            context.SaveChanges();
-            return RedirectToAction("Index", new { thx = "Thank you for Order!!!" });
+            if (ModelState.IsValid)
+            {
+                context.Orders.Add(order);
+                context.SaveChanges();
+                return RedirectToAction("Index", new { thx = "Thank you for Order!!!" });
+            }
+            else 
+            {
+                return View(order);
+            }
         }
     }
 }

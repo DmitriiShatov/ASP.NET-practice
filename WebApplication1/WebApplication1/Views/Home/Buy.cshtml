@@ -1,20 +1,25 @@
-﻿
+﻿@model WebApplication1.Models.Order
+
 <div>
     <p>Get Order</p>
     <form method="post">
         <input type="hidden" name="BikeId" value="@ViewBag.BikeId" />
         <div class="input-group mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
-            <input type="text" name="User" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            @Html.LabelFor(x => x.User, null, new { @class = "input-group-text" })
+            @Html.TextBoxFor(x => x.User, null, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.User)
         </div>
         <div class="input-group mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-default">Address</span>
-            <input type="text" name="Address" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            @Html.LabelFor(x => x.Address, null, new { @class = "input-group-text" })
+            @Html.TextBoxFor(x => x.Address, null, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.Address)
         </div>
         <div class="input-group mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-default">Contact Phone</span>
-            <input type="text" name="ContactPhone" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            @Html.LabelFor(x => x.ContactPhone, null, new { @class = "input-group-text" })
+            @Html.TextBoxFor(x => x.ContactPhone, null, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.ContactPhone)
         </div>
-        <input type="submit" class="btn btn-secondary" style="width:30%"/>
+        @*@Html.ValidationSummary()*@
+        <input type="submit" class="btn btn-secondary" style="width:30%" />
     </form>
 </div>

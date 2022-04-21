@@ -1,0 +1,53 @@
+﻿@model WebApplication1.Models.Bike
+
+<div>
+    <form method="post">
+        @*@Html.ValidationSummary()*@
+        <div class="mb-3">
+            @Html.LabelFor(x => x.Name, null, new { @class = "form-label" })
+            @Html.TextBoxFor(x => x.Name, null, new { @class = "form-control", placeholder = "Name" })
+            @Html.ValidationMessageFor(x => x.Name)
+        </div>
+        <div class="mb-3">
+            @Html.LabelFor(x => x.Company, null, new { @class = "form-label" })
+            @Html.TextBoxFor(x => x.Company, null, new { @class = "form-control", placeholder = "Company" })
+            @Html.ValidationMessageFor(x => x.Company)
+        </div>
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="TypeId">Types</label>
+            <select class="form-select" id="TypeId" name="TypeId" style="width:90%;">
+                @foreach (var item in ViewBag.Types)
+                {
+                    <option value="@item.TypeId">@item.Name</option>
+                }
+            </select>
+        </div>
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="ModelId">Models</label>
+            <select class="form-select" id="ModelId" name="ModelId" style="width:90%;">
+                @foreach (var item in ViewBag.Models)
+                {
+                    <option value="@item.ModelId">@item.Name</option>
+
+                }
+            </select>
+        </div>
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="StyleId">Styles</label>
+            <select class="form-select" id="StyleId" name="StyleId" style="width:90%;">
+                @foreach (var item in ViewBag.Styles)
+                {
+                    <option value="@item.StyleId">@item.Name</option>
+                }
+            </select>
+        </div>
+        <div class="mb-3">
+            @Html.LabelFor(x => x.Price, null, new { @class = "form-label" })
+            @Html.TextBoxFor(x => x.Price, null, new { @class = "form-control", placeholder = "Price" })
+            @Html.ValidationMessageFor(x => x.Price)
+        </div>
+        <div class="mb-3">
+            <input type="submit" class="btn btn-dark" id="exampleFormControlInput1" value="Create" style="width:100%;">
+        </div>
+    </form>
+</div>

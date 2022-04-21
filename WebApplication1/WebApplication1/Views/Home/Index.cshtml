@@ -1,46 +1,67 @@
-﻿@model IEnumerable<WebApplication1.Models.Bike>
+﻿@*@model IEnumerable<WebApplication1.Models.Bike>*@
+@model WebApplication1.Models.IndexViewModel
 
-        @if (ViewBag.Thx != null)
+@if (ViewBag.Thx != null)
+{
+    <div style="text-align:center;margin:30px;background-color:khaki">
+        <p>@ViewBag.Thx</p>
+    </div>
+}
+
+<h2 style="text-align:center;">Bikes</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Company</th>
+            <th>Type</th>
+            <th>Model</th>
+            <th>Style</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var bike in Model.Bikes)
         {
-            <div style="text-align:center;margin:30px;background-color:khaki">
-                <p>@ViewBag.Thx</p>
-            </div>
-        }
-
-        <h2 style="text-align:center;">Bikes</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Company</th>
-                    <th>Type</th>
-                    <th>Model</th>
-                    <th>Style</th>
-                    <th>Price</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var bike in Model) 
-                {
-                <tr>
-                    <td>@bike.Name</td>
-                    <td>@bike.Company</td>
-                    <td>@foreach (var @data in ViewBag.Types)
+            <tr>
+                <td>@bike.Name</td>
+                <td>@bike.Company</td>
+                <td>
+                    @foreach (var @data in ViewBag.Types)
                     {
-                        if (@data.TypeId == bike.TypeId) @data.Name; 
-                    }</td>
-                    <td>@foreach (var @data in ViewBag.Models)
+                        if (@data.TypeId == bike.TypeId)@data.Name;
+                    }
+                </td>
+                <td>
+                    @foreach (var @data in ViewBag.Models)
                     {
                         if (@data.ModelId == bike.ModelId)@data.Name;
-                    }</td>
-                    <td>@foreach (var @data in ViewBag.Styles)
+                    }
+                </td>
+                <td>
+                    @foreach (var @data in ViewBag.Styles)
                     {
                         if (@data.StyleId == bike.StyleId)@data.Name;
-                    }</td>
-                    <td>@bike.Price</td>
-                    <td><a href="~/Home/Buy/@bike.BikeId" class="btn btn-primary">Buy</a></td>
-                </tr>
-                }
-            </tbody>
-        </table>
+                    }
+                </td>
+                <td>@bike.Price</td>
+                <td><a href="~/Home/Buy/@bike.BikeId" class="btn btn-primary">Buy</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="btn-group">
+    @for (int i = 1; i <= Model.PageInfo.TotalPages;i++)
+    {
+        <a asp-controller="Home" asp-action="Index" asp-route-page="@i" class="btn btn-primary">@i</a>
+    }
+    @*@using (Html.BeginForm())
+        {
+            var prevPage = Model.PageInfo.PageNumber - 1;
+            var nextPage = Model.PageInfo.PageNumber + 1;
+            <a asp-controller="Home" asp-action="Index" asp-route-page="@prevPage" class="btn btn-primary">Previous</a>
+            <a asp-controller="Home" asp-action="Index" asp-route-page="@nextPage" class="btn btn-primary">Next</a>
+        }*@
+</div>
